@@ -35,47 +35,53 @@ class ListaTransacoesAdapter(
 
     private fun adicionaData(
         viewCriada: View,
-        transacao: Transacao
-    ) {
+        transacao: Transacao) {
         viewCriada.transacao_data.text = transacao.data.formataParaBrasileiro()
     }
 
     private fun adicionaCategoria(
         viewCriada: View,
-        transacao: Transacao
-    ) {
+        transacao: Transacao) {
         viewCriada.transacao_categoria.text = transacao.categoria.limitaEmAte(LIMITE_DA_CATEGORIA)
     }
 
     private fun adicionaIcone(
         transacao: Transacao,
-        viewCriada: View
-    ) {
-        if (transacao.tipo == Tipo.RECEITA) {
-            viewCriada.transacao_icone.setBackgroundResource(R.drawable.icone_transacao_item_receita)
-        } else {
-            viewCriada.transacao_icone.setBackgroundResource(R.drawable.icone_transacao_item_despesa)
-        }
+        viewCriada: View) {
+
+        val icone = iconePor(transacao.tipo)
+        viewCriada.transacao_icone.setBackgroundResource(icone)
     }
+
+    private fun iconePor(tipo: Tipo): Int {
+        if (tipo == Tipo.RECEITA) {
+            return   R.drawable.icone_transacao_item_receita
+        }
+            return  R.drawable.icone_transacao_item_despesa
+        }
 
     private fun adicionaValor(
         transacao: Transacao,
         viewCriada: View) {
-        var cor = 0
-        if (transacao.tipo == Tipo.RECEITA) {
-            cor = ContextCompat.getColor(
-                    context,
-                    R.color.receita)
-        } else {
-            cor = ContextCompat.getColor(
-                context,
-                R.color.despesa
-            )
-        }
+
+        val cor:Int = corPor(transacao.tipo)
 
             viewCriada.transacao_valor.setTextColor(cor)
 
         viewCriada.transacao_valor.text = transacao.valor.formataParaBrasileiro()
+    }
+
+    private fun corPor(tipo: Tipo): Int {
+         if (tipo == Tipo.RECEITA) {
+            return ContextCompat.getColor(
+                context,
+                R.color.receita
+            )
+        }
+           return ContextCompat.getColor(
+                context,
+                R.color.despesa
+            )
     }
 
     override fun getItem(position: Int): Transacao {
