@@ -4,7 +4,6 @@ import android.content.Context
 import android.view.ViewGroup
 import com.example.financask.Extension.formataParaBrasileiro
 import com.example.financask.R
-import com.example.financask.delegate.TransacaoDelegate
 import com.example.financask.model.Tipo
 import com.example.financask.model.Transacao
 
@@ -22,9 +21,9 @@ class AlteraTransacaoDialog(
     }
 
     fun chama(transacao: Transacao,
-        transacaoDelegate: TransacaoDelegate) {
+        delegate: (transacao: Transacao)-> Unit) {
         val tipo = transacao.tipo
-        super.chama(tipo, transacaoDelegate)
+        super.chama(tipo, delegate)
 
         inicializaCampoValor(transacao)
         inicializaCampoData(transacao)
